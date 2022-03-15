@@ -11,6 +11,7 @@ concurrency:
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
         versions:
           - os: ubuntu-latest
@@ -19,6 +20,9 @@ jobs:
           - os: ubuntu-18.04
             python: 2.7
             pytag: py27
+          - os: ubuntu-18.04
+            python: 2.6
+            pytag: py26
 
     runs-on: ${{ matrix.versions.os }}
     steps:
