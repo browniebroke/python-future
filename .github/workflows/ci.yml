@@ -14,15 +14,27 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - os: ubuntu-latest
-            python: 3.9
-            pytag: py39
+          - os: ubuntu-18.04
+            python: 2.6
+            pytag: py26
           - os: ubuntu-18.04
             python: 2.7
             pytag: py27
           - os: ubuntu-18.04
-            python: 2.6
-            pytag: py26
+            python: 3.5
+            pytag: py35
+          - os: ubuntu-latest
+            python: 3.6
+            pytag: py36
+          - os: ubuntu-latest
+            python: 3.7
+            pytag: py37
+          - os: ubuntu-latest
+            python: 3.8
+            pytag: py38
+          - os: ubuntu-latest
+            python: 3.9
+            pytag: py39
 
     runs-on: ${{ matrix.versions.os }}
     steps:
