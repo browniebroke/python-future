@@ -12,7 +12,7 @@ fi
 if [ $pytag = 'py26' ]; then
     pip install importlib
 fi
-pip install pytest unittest2
+pip install pytest unittest2 wheel
 python setup.py bdist_wheel --python-tag=$pytag
 pip install dist/future-$version-$pytag-none-any.whl
 pytest tests/
