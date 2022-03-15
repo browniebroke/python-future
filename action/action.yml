@@ -1,0 +1,11 @@
+name: Python Future Image
+description: Docker image to run tests for python-future
+inputs:
+  python-version:
+    description: Version of Python to use (should be acceptable by pyenv)
+    required: true
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    PYTHON_VERSION: ${{ inputs.python-version }}

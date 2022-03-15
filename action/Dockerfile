@@ -1,5 +1,4 @@
-ARG DEBIAN_VERSION
-FROM debian:${DEBIAN_VERSION}
+FROM debian:9
 
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends \
@@ -28,14 +27,10 @@ RUN echo export PATH="/opt/pyenv/bin:$PATH" >> ~/.bashrc
 RUN echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 RUN echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 
-ARG VIRTUALENV_VERSION
-RUN pip3 install virtualenv==${VIRTUALENV_VERSION}
-
-ARG PYTHON_VERSION
-RUN PATH=/opt/pyenv/bin:$PATH pyenv install ${PYTHON_VERSION}
-RUN virtualenv /root/venv --python /opt/pyenv/versions/${PYTHON_VERSION}/bin/python
-
+ENV PATH=${PYENV_ROOT}/bin:$PATH
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-WORKDIR /root/python-future
-ADD . /root/python-future
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

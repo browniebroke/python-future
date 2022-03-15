@@ -14,29 +14,12 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - debian: 9
-            python: 2.6.9
-            # Note: virtualenv 15.2.0 is the last to support Python 2.6.
-            virtualenv: 15.2.0
-            pytag: py26
-          - debian: 9
-            python: 3.7.7
-            virtualenv: 20.0.21
-            pytag: py37
+          - python: "2.6.9"
+          - python: "3.7.7"
 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          docker build \
-          . \
-          --build-arg DEBIAN_VERSION=${{ matrix.versions.debian }} \
-          --build-arg PYTHON_VERSION=${{ matrix.versions.python }} \
-          --build-arg VIRTUALENV_VERSION=${{ matrix.versions.virtualenv }} \
-          -t jmadler/python-future-builder:debian-${{ matrix.versions.debian }}-${{ matrix.versions.python }}
-      - run: |
-          docker run \
-          -it \
-          -v $(realpath dist):/root/python-future/dist \
-          jmadler/python-future-builder:debian-${{ matrix.versions.debian }}-${{ matrix.versions.python }}
-          /root/python-future/setup.sh 0.18.2 ${{ matrix.versions.pytag }}
+      - uses: ./action
+        with:
+          python-version: ${{ matrix.versions.python }}
