@@ -10,9 +10,20 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        versions:
+          - os: ubuntu-latest
+            python: 3.9
+            pytag: py39
+          - os: ubuntu-18.04
+            python: 2.7
+            pytag: py27
+
+    runs-on: ${{ matrix.versions.os }}
     steps:
       - uses: actions/checkout@v3
-      - run: docker pull jmadler/python-future-builder:latest
-      - run: ./build.sh
-      - run: ./lint.sh
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.versions.python }}
+      - run: ./setup.sh 0.18.2 ${{ matrix.versions.pytag }}
